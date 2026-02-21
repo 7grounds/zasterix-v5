@@ -51,17 +51,13 @@ export interface CommitCodeOptions {
 export async function commitCode(options: CommitCodeOptions): Promise<void> {
   const { path, content, message } = options;
 
-  const owner  = OWNER;
-  const repo   = REPO;
-  const branch = GITHUB_BRANCH;
-
   // Base64-encode the content (required by the GitHub Contents API)
   const contentBase64 = Buffer.from(content, 'utf8').toString('base64');
 
   // Fetch the existing file's SHA so we can overwrite it (if it exists)
   let existingSha: string | undefined;
   try {
-    const { data } = await octokit.repos.getContent({ owner, repo, path, ref: branch });
+    const { data } = await octokit.repos.getContent({ owner: OWNER, repo: REPO, path, ref: GITHUB_BRANCH });
     // getContent returns an array for directories; narrow to a single file
     if (!Array.isArray(data) && data.type === 'file') {
       existingSha = data.sha;
@@ -79,14 +75,14 @@ export async function commitCode(options: CommitCodeOptions): Promise<void> {
   }
 
   await octokit.repos.createOrUpdateFileContents({
-    owner,
-    repo,
+    owner: OWNER,
+    repo: REPO,
     path,
     message,
     content: contentBase64,
-    branch,
+    branch: GITHUB_BRANCH,
     ...(existingSha ? { sha: existingSha } : {}),
   });
 
-  console.log(`[git] Committed ${path} to ${owner}/${repo}@${branch}`);
+  console.log(`[git] Committed ${path} to ${OWNER}/${REPO}@${GITHUB_BRANCH}`);
 }

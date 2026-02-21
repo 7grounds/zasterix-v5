@@ -96,7 +96,7 @@ export async function completeTask(
 // ─────────────────────────────────────────────────────────────────────────────
 export async function failTask(taskId: string, err: unknown): Promise<void> {
   const message = err instanceof Error ? err.message : String(err);
-  const stack   = err instanceof Error ? (err.stack ?? '') : '';
+  const stack = err instanceof Error ? (err.stack ?? '') : '';
 
   const { error } = await supabase
     .from('agent_tasks')
