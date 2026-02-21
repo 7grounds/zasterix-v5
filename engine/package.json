@@ -1,0 +1,21 @@
+{
+  "name": "engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Zasterix-V5 Engine — persistent Node.js consumer that polls Supabase for agent tasks",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.97.0",
+    "dotenv": "^17.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
