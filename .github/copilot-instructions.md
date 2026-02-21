@@ -1,5 +1,9 @@
 # Copilot Instructions for Project Zasterix-V5
 
+> **This is a Durable Multi-Agent System (Durable MAS) project.**
+> Prioritize state-machine logic over request-response.
+> All agent steps must be logged to Supabase before proceeding.
+
 ## Pillar 1 — The Architectural Shift
 
 We are moving away from Vercel Serverless Functions for agent logic. Project Zasterix-V5 uses a **Producer-Consumer architecture**:
