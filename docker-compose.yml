@@ -1,0 +1,73 @@
+version: '3.9'
+
+# Zasterix-V5 — local development stack
+#
+# Services:
+#   db        — PostgreSQL (mirrors your Supabase schema locally)
+#   engine    — The persistent Node.js worker (Consumer); polls `agent_tasks`
+#   dashboard — The Next.js frontend (Producer); only writes tasks to the DB
+#
+# Start everything:  docker compose up
+# Engine only:       docker compose up engine
+# Dashboard only:    docker compose up dashboard
+
+services:
+  # ─────────────────────────────────────────
+  # Database (local Supabase-compatible Postgres)
+  # ─────────────────────────────────────────
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: zasterix
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────
+  # Engine — The "Life Force" (Railway / Codespaces in prod)
+  # Long-running Node.js process; immune to 504 timeouts.
+  # Reads SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY to connect to Supabase.
+  # ─────────────────────────────────────────
+  engine:
+    build:
+      context: ./engine
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # ─────────────────────────────────────────
+  # Dashboard — The "Face" (Vercel in prod)
+  # Next.js app; only writes task records to Supabase — never runs agents.
+  # ─────────────────────────────────────────
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+    ports:
+      - '3000:3000'
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
