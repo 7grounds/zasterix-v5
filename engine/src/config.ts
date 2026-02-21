@@ -28,7 +28,7 @@ const config = {
   githubBranch:           process.env.GITHUB_BRANCH ?? 'main',
 
   // ── Engine tuning ─────────────────────────────────────────────────────────
-  pollIntervalMs: Number(process.env.ENGINE_POLL_INTERVAL_MS ?? 5000),
+  pollIntervalMs: Number(process.env.ENGINE_POLL_INTERVAL_MS ?? 10_000),
 } as const;
 
 export default config;
