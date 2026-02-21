@@ -3,7 +3,7 @@
 --
 -- Apply this file once against your Supabase project:
 --   Dashboard → SQL Editor → paste and run, OR
---   supabase db push  (preferred — uses supabase/migrations/01_initial_schema.sql)
+--   supabase db push  (preferred — uses supabase/migrations/01_state_machine.sql)
 --
 -- Tables:
 --   agent_tasks  — source of truth for all agent work (Pillar 2)

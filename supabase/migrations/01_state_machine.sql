@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────────────────────
--- Migration 01 — Initial Schema
+-- Migration 01 — State Machine Schema
 -- Zasterix-V5 Supabase "Brain"
 --
 -- Run via Supabase CLI:  supabase db push
