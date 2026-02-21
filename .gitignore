@@ -1,0 +1,4 @@
+# environment variables — populated locally via: vercel env pull .env
+.env
+.env.local
+.env.*.local
