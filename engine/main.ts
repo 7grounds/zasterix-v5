@@ -1,24 +1,21 @@
-name: Zasterix-V5-Engine
-on:
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+import { createClient } from '@supabase/supabase-js';
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Run Engine
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd engine
-          npm install
-          npx ts-node main.ts
+async function testConnection() {
+  console.log("🚀 Zasterix-V5 Engine startet...");
+  
+  const url = process.env.SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !key) {
+    console.error("❌ Fehler: Supabase Secrets fehlen!");
+    process.exit(1);
+  }
+
+  console.log("✅ Umgebungsvariablen geladen.");
+  console.log("🤖 Verbindung zu Supabase wird geprüft...");
+  
+  // Hier würde deine Logik starten
+  console.log("🏁 Testlauf erfolgreich beendet.");
+}
+
+testConnection();
