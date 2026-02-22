@@ -7,7 +7,6 @@ on:
 jobs:
   run-engine:
     runs-on: ubuntu-latest
-    # Die Variablen hier definieren macht sie für alle Steps im Job verfügbar
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -18,8 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: './engine/package-lock.json'
+          # Cache entfernt, um den Fehler "paths not resolved" zu umgehen
 
       - name: Install and Build
         run: |
