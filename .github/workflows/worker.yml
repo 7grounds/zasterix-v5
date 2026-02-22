@@ -7,18 +7,27 @@ on:
 jobs:
   run-engine:
     runs-on: ubuntu-latest
+    # Die Variablen hier definieren macht sie für alle Steps im Job verfügbar
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+    
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Build and Run
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          cache: 'npm'
+          cache-dependency-path: './engine/package-lock.json'
+
+      - name: Install and Build
         run: |
           cd engine
           npm install
           npx tsc
+
+      - name: Execute Engine
+        run: |
+          cd engine
           node dist/main.js
