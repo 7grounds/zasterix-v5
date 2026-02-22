@@ -1,13 +1,17 @@
 {
   "name": "zasterix-engine",
-  "version": "1.0.0",
-  "description": "Zasterix-V5 Self-Building Engine",
-  "main": "main.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/main.js"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.7",
-    "@octokit/rest": "^20.0.2",
-    "@google/generative-ai": "^0.2.1",
-    "typescript": "^5.3.3",
-    "ts-node": "^10.9.2"
+    "@supabase/supabase-js": "^2.x",
+    "dotenv": "^16.x"
+  },
+  "devDependencies": {
+    "typescript": "^5.x",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.x"
   }
 }
