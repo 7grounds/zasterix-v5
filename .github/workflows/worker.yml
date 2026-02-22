@@ -17,13 +17,11 @@ jobs:
           node-version: 20
 
       - name: Build and Run
-        # WICHTIG: env muss direkt unter dem Namen/Step stehen, nicht eingerückt unter 'with'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           cd engine
           npm install
-          npx tsc
-          node dist/main.js
-
+          # Wir führen die .ts Datei direkt aus, um dist-Fehler zu vermeiden
+          npx ts-node main.ts
