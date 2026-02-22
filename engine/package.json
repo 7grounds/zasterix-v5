@@ -1,11 +1,13 @@
 {
-  "name": "zasterix-engine",
+  "name": "zasterix-v5-engine",
   "version": "1.0.0",
+  "description": "Die Denk-Einheit der Zasterix-Firma",
   "main": "main.ts",
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "@supabase/supabase-js": "latest",
+    "@google/generative-ai": "latest",
+    "ts-node": "latest",
+    "typescript": "latest",
+    "@types/node": "latest"
   }
 }
-
