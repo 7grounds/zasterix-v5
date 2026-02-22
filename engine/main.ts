@@ -1,21 +1,43 @@
 import { createClient } from '@supabase/supabase-js';
 
-async function testConnection() {
-  console.log("🚀 Zasterix-V5 Engine startet...");
-  
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
-  if (!url || !key) {
-    console.error("❌ Fehler: Supabase Secrets fehlen!");
-    process.exit(1);
+async function runSmallStep() {
+  console.log("🚶 Kleiner Schritt: Engine startet...");
+
+  // 1. Vision abrufen
+  const { data: config, error: configErr } = await supabase
+    .from('wo_config')
+    .select('value')
+    .eq('key', 'vision')
+    .single();
+
+  if (configErr) return console.error("❌ Vision nicht gefunden:", configErr.message);
+  console.log("📖 Vision erkannt:", config.value);
+
+  // 2. Nach dem ersten Task suchen
+  const { data: task, error: taskErr } = await supabase
+    .from('wo_tasks')
+    .select('*')
+    .eq('status', 'pending')
+    .limit(1)
+    .single();
+
+  if (!task) {
+    console.log("📭 Briefkasten ist leer. Keine Arbeit für heute.");
+    return;
   }
 
-  console.log("✅ Umgebungsvariablen geladen.");
-  console.log("🤖 Verbindung zu Supabase wird geprüft...");
-  
-  // Hier würde deine Logik starten
-  console.log("🏁 Testlauf erfolgreich beendet.");
+  // 3. Nur einen Log-Eintrag schreiben (noch keine KI)
+  await supabase.from('wo_logs').insert({
+    task_id: task.id,
+    message: `Postbote hat Task '${task.title}' gesehen. Bereit für KI-Anbindung.`
+  });
+
+  console.log(`✅ Task '${task.title}' erfolgreich im Log registriert.`);
 }
 
-testConnection();
+runSmallStep();
