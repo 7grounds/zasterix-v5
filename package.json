@@ -1,20 +1,17 @@
 {
-  "name": "zasterix-v5",
-  "version": "1.0.0",
+  "name": "zasterix-engine",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "build": "tsc",
+    "start": "node dist/main.js"
   },
   "dependencies": {
-    "next": "14.1.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "@supabase/supabase-js": "latest",
-    "typescript": "5.3.3",
-    "@types/node": "20.11.20",
-    "@types/react": "18.2.57",
-    "@types/react-dom": "18.2.19"
+    "@supabase/supabase-js": "^2.x",
+    "dotenv": "^16.x"
+  },
+  "devDependencies": {
+    "typescript": "^5.x",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.x"
   }
 }
